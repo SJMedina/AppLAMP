@@ -24,8 +24,8 @@ sudo mysql -u root
 ```
 Ejecutar los scripts para la creación y llenado:
 ```bash
-mariadb -u usuario_consultas -p < ruta_al_archivo/estructura.sql
-mariadb -u usuario_consultas -p < ruta_al_archivo/datos.sql
+create database DBReservaTurnos; use DBReservaTurnos; source [rutaArchivoDDL];
+source [rutaArchivoDML];
 ```
 Salir de MariaDB:
 ```bash
@@ -52,7 +52,7 @@ Modificar el archivo sr.conf para ajustarlo a la instalación, como puede ser el
         ServerAlias www.sistemaReservas.com
 
         ServerAdmin webmaster@sistemaReservas.com
-        DocumentRoot /var/www/sr.com
+        DocumentRoot /var/www/sr.com/AppLAMP/PHP
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
@@ -86,3 +86,12 @@ Se puede verificar que el host virtual se haya establecido correctamente con:
 ```bash
 sudo apache2ctl -S
 ```
+
+Adicionalmente es necesario configurar el fichero de /etc/hosts y agregar la dirección iPv4 propia para que redireccione a sistemaReservas.com o `www.sistemaReservas.com` y la aplicación se pueda abrir en un navegador.
+
+### Configuración de PHP
+
+El programa cuenta con tres tipos de usuarios, el 'usuario' o cliente, el 'empleado' y el 'admin'.
+Para ingresar con un usuario particular se debe modificar `index.php` y agregar tanto el username como passwd de la cuenta a la que se quiera acceder.
+
+
