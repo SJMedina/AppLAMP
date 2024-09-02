@@ -22,7 +22,6 @@ CREATE TABLE localidad(
 	id SERIAL CONSTRAINT pk_id_localidad PRIMARY KEY,
 	nombre VARCHAR(30) UNIQUE,
 	codigoPostal INTEGER,
-	tasaDeRobo FLOAT,
 	idProvincia INTEGER CONSTRAINT fk_id_provincia REFERENCES provincia(id)
 );
 
@@ -79,15 +78,21 @@ CREATE TABLE reserva(
 );
 
 
---HISTORIALES
+--Historiales
 
-CREATE TABLE historial_ajuste_cant_hijos(
-	id SERIAL CONSTRAINT pk_id_historial_ajuste_cant_hijos PRIMARY KEY,
-	valor INTEGER UNIQUE,
+CREATE TABLE historial_modificacion_usuario(
+	id SERIAL CONSTRAINT pk_id_modificacion_usuario PRIMARY KEY,
+	modificaciones TEXT,
 	fechaModificacion DATE,
-	cantHijos INTEGER,
 	idUsuario INTEGER CONSTRAINT fk_id_usuario REFERENCES usuario(id),
-	idAjusteCantHijos INTEGER CONSTRAINT fk_id_ajuste_cant_hijos REFERENCES ajuste_cant_hijos(id)
+	
+);
+
+CREATE TABLE historial_modificacion_reserva(
+	id SERIAL CONSTRAINT pk_id_modificacion_reserva PRIMARY KEY,
+	modificaciones TEXT,
+	fechaModificacion DATE,
+	idReserva INTEGER CONSTRAINT fk_id_usuario REFERENCES reserva(id),
 );
 
 

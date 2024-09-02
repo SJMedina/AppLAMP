@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passwd = $_POST['passwd'];
 
     try {
-        $usuario = verificarLogin($conn, $nombre_usuario, $contraseña);
+        $usuario = verificarLogin($conn, $username, $passwd);
 
         // Si se logra la autenticación, se establecen las variables de sesión
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
