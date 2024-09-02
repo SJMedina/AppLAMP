@@ -18,7 +18,7 @@ INSERT INTO localidad (nombre, codigoPostal, idProvincia) VALUES
 
 -- Insertar datos en la tabla domicilio
 INSERT INTO domicilio (numero, calle, departamento, piso, idLocalidad) VALUES
-(123, 'Avenida Dr. Joaquín V. González', 1, 3, 1),
+(123, 'Avenida Dr. Joaquín', 1, 3, 1),
 (456, 'La Rioja', 0, 0, 2),
 (789, 'Rua das Flores', 2, 10, 3);
 
