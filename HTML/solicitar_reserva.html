@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Reserva</title>
+</head>
+<body>
+    <h1>Solicitar Reserva</h1>
+    <form action="guardar_reserva.php" method="post">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="fecha_reserva">Fecha de la Reserva:</label><br>
+        <input type="date" id="fecha_reserva" name="fecha_reserva" required><br><br>
+
+        <label for="motivo">Motivo de la Reserva:</label><br>
+        <textarea id="motivo" name="motivo" required></textarea><br><br>
+
+        <input type="submit" value="Solicitar Reserva">
+    </form>
+</body>
+</html>
