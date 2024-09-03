@@ -27,8 +27,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($consulta->execute()) {
         // Establecer un mensaje de éxito en la sesión
         $_SESSION['mensaje_exito'] = "Reserva solicitada con éxito.";
-        header("Location: index.php");
-        exit();
+
+        // Obtener los detalles del usuario para la notificación
+        $usuario_query = $conn->prepare("SELECT nombre, apellido, correoElectronico FROM usuario WHERE id = ?");
+        $usuario_query->bind_param("i", $id_usuario);
+        $usuario_query->execute();
+        $usuario_result = $usuario_query->get_result();
+        $usuario = $usuario_result->fetch_assoc();
+
+        // Enviar notificación por correo electrónico
+        $to = $usuario['correoElectronico'];
+        $subject = "Confirmación de Reserva";
+        $message = "Hola " . htmlspecialchars($usuario['nombre']) . " " . htmlspecialchars($usuario['apellido']) . ",\n\n";
+        $message .= "Tu reserva ha sido solicitada con éxito.\n\n";
+        $message .= "Detalles de la reserva:\n";
+        $message .= "Fecha de Reserva: " . htmlspecialchars($fecha_reserva) . "\n";
+        $message .= "Motivo: " . htmlspecialchars($motivo) . "\n\n";
+        $message .= "Gracias,\nEl equipo de reservas";
+        $headers = "From: no-reply@sistemareserva.com";
+
+        if (mail($to, $subject, $message, $headers)) {
+            // Redirigir a la página principal
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Error al enviar la notificación por correo electrónico.";
+            header("Location: index.php");
+            exit();
+        }
+
+        // Cerrar la consulta de usuario
+        $usuario_query->close();
     } else {
         echo "Error: " . $consulta->error;
     }
@@ -47,17 +76,20 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitar Reserva</title>
+    <link rel="stylesheet" href="solicitar_reserva.css">
 </head>
 <body>
-    <h1>Solicitar Reserva</h1>
-    <form method="post">
-        <label for="fecha_reserva">Fecha de la Reserva:</label><br>
-        <input type="date" id="fecha_reserva" name="fecha_reserva" required><br><br>
+    <div class="container">
+        <h1>Solicitar Reserva</h1>
+        <form method="post">
+            <label for="fecha_reserva">Fecha de la Reserva:</label><br>
+            <input type="date" id="fecha_reserva" name="fecha_reserva" required><br><br>
 
-        <label for="motivo">Motivo de la Reserva:</label><br>
-        <textarea id="motivo" name="motivo" required></textarea><br><br>
+            <label for="motivo">Motivo de la Reserva:</label><br>
+            <textarea id="motivo" name="motivo" required></textarea><br><br>
 
-        <input type="submit" value="Solicitar Reserva">
-    </form>
+            <input type="submit" value="Solicitar Reserva">
+        </form>
+    </div>
 </body>
 </html>
