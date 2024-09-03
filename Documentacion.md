@@ -101,6 +101,7 @@ if (isset($_SESSION['tipo_usuario'])) {
 </body>
 </html>
 ```
+![Pantalla de index](images/index.png)
 
 ### 2. `login.php`
 
@@ -162,6 +163,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 </html>
 ```
+![Pantalla de login](images/login.png)
+
 ### 3. `solicitar_reserva.php`
 
 **Funcionalidad:**
@@ -268,6 +271,9 @@ $conn->close();
 </body>
 </html>
 ```
+
+![Pantalla de solicitud de reserva](images/solicitar_reserva.png)
+
 ### 4. `solicitar_reserva.php`
 
 **Funcionalidad:**
@@ -394,3 +400,4 @@ $consulta->close();
 $conn->close();
 ?>
 ```
+![Pantalla de ver reservas](images/ver_reservas.png)
