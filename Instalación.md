@@ -27,6 +27,8 @@ Ejecutar los scripts para la creación y llenado:
 create database DBReservaTurnos; use DBReservaTurnos; source [rutaArchivoDDL];
 source [rutaArchivoDML];
 ```
+Asegurarse de crear un usuario con permisos para poder establecer la conexión posteriormente en el sitio web
+
 Salir de MariaDB:
 ```bash
 EXIT;
@@ -34,13 +36,13 @@ EXIT;
 
 ### Configuración de Apache
 
-En el directorio /etc/apache2/sites-available crear una copia de 000-default.conf del siguiente modo:
+En el directorio /etc/apache2/sites-available crear una copia de 000-default.conf (también se puede utilizar este mismo fichero si se desea):
 ```bash
 sudo cp 00-default.conf sr.conf
 ```
 Modificar el archivo sr.conf para ajustarlo a la instalación, como puede ser el siguiente ejemplo:
 ```sr.conf
-<VirtualHost *:80>
+<VirtualHost *:*>
         # The ServerName directive sets the request scheme, hostname and port that
         # the server uses to identify itself. This is used when creating
         # redirection URLs. In the context of virtual hosts, the ServerName
@@ -48,11 +50,11 @@ Modificar el archivo sr.conf para ajustarlo a la instalación, como puede ser el
         # match this virtual host. For the default virtual host (this file) this
         # value is not decisive as it is used as a last resort host regardless.
         # However, you must set it for any further virtual host explicitly.
-        ServerName sistemaReservas.com
-        ServerAlias www.sistemaReservas.com
+        ServerName sistemareservas.com
+        ServerAlias www.sistemareservas.com
 
-        ServerAdmin webmaster@sistemaReservas.com
-        DocumentRoot /var/www/sr.com/AppLAMP/PHP
+        ServerAdmin webmaster@sistemareservas.com
+        DocumentRoot /var/www/html
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
@@ -68,10 +70,11 @@ Modificar el archivo sr.conf para ajustarlo a la instalación, como puede ser el
         # include a line for only one particular virtual host. For example the
         # following line enables the CGI configuration for this host only
         # after it has been globally disabled with "a2disconf".
-        #Include conf-available/serve-cgi-bin.conf
-
-        <Directory /var/www/sr.com>
+        #Include conf-available/serve-cgi-bin.con
+        <Directory /var/www/html>
                 DirectoryIndex index.php
+                AllowOverride All
+                Require all granted
         </Directory>
 </VirtualHost>
 
@@ -87,11 +90,12 @@ Se puede verificar que el host virtual se haya establecido correctamente con:
 sudo apache2ctl -S
 ```
 
-Adicionalmente es necesario configurar el fichero de /etc/hosts y agregar la dirección iPv4 propia para que redireccione a sistemaReservas.com o `www.sistemaReservas.com` y la aplicación se pueda abrir en un navegador.
+Adicionalmente es necesario configurar el fichero de /etc/hosts y agregar la dirección iPv4 propia para que redireccione a sistemareservas.com o `www.sistemareservas.com` y la aplicación se pueda abrir en un navegador.
 
 ### Configuración de PHP
 
-El programa cuenta con tres tipos de usuarios, el 'usuario' o cliente, el 'empleado' y el 'admin'.
-Para ingresar con un usuario particular se debe modificar `index.php` y agregar tanto el username como passwd de la cuenta a la que se quiera acceder.
+Para poder establecer la conexión con la base de datos desde la aplicación es necesario configurar el archivo `conexión.php` y cambiar tanto `$username` como `$passwd` según el usuario que se haya establecido de manera local con MariaDB.
+
+
 
 
