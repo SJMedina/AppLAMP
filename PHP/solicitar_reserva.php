@@ -2,27 +2,43 @@
 include 'conexion.php';
 session_start();
 
+// Verificar si el usuario es cliente
 if ($_SESSION['tipo_usuario'] != 'cliente') {
     header("Location: index.php");
     exit();
 }
 
+// Procesar el formulario cuando se envía
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_usuario = $_SESSION['id_usuario'];
     $fecha_reserva = $_POST['fecha_reserva'];
     $motivo = htmlspecialchars($_POST['motivo']);
 
-    $consulta = $conn->prepare("INSERT INTO reserva (nroReserva, idUsuario, fechaReserva, motivo) VALUES (?, ?, NULL, ?, ?)");
+    // Preparar la consulta
+    $consulta = $conn->prepare("INSERT INTO reserva (idUsuario, fechaReserva, motivo) VALUES (?, ?, ?)");
+
+    if ($consulta === false) {
+        die("Error al preparar la consulta: " . $conn->error);
+    }
+
+    // Vincular parámetros y ejecutar la consulta
     $consulta->bind_param("iss", $id_usuario, $fecha_reserva, $motivo);
 
     if ($consulta->execute()) {
-        echo "Reserva solicitada con éxito.";
+        // Establecer un mensaje de éxito en la sesión
+        $_SESSION['mensaje_exito'] = "Reserva solicitada con éxito.";
+        header("Location: index.php");
+        exit();
     } else {
         echo "Error: " . $consulta->error;
     }
 
+    // Cerrar la consulta
     $consulta->close();
 }
+
+// Cerrar la conexión
+$conn->close();
 ?>
 
 <!DOCTYPE html>

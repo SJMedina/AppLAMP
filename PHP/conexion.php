@@ -1,8 +1,8 @@
 <?php
 // Configuración de la base de datos
 $servername = "localhost";
-$username = "";
-$password = "";
+$username = "admin";
+$password = "admin";
 $dbname = "DBReservaTurnos";
 
 // Crear la conexión
@@ -14,6 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Función para verificar el inicio de sesión con manejo de errores
+
 function verificarLogin($conn, $nombre_usuario, $contrasenia) {
     try {
         $consulta = $conn->prepare("SELECT id, tipo_usuario FROM usuario WHERE username = ? AND contrasenia = ?");
@@ -38,10 +39,10 @@ function verificarLogin($conn, $nombre_usuario, $contrasenia) {
 
     } catch (Exception $e) {
         // Registrar el error
-        error_log($e->getMessage(), 0);
+       # error_log($e->getMessage(), 0);
         // Re-lanzar la excepción para manejarla en otro lugar
-        throw $e;
+       # throw $e;
     }
 }
-?>
 
+?>
