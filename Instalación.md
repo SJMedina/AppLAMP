@@ -96,6 +96,8 @@ Adicionalmente es necesario configurar el fichero de /etc/hosts y agregar la dir
 
 Para poder establecer la conexión con la base de datos desde la aplicación es necesario configurar el archivo `conexión.php` y cambiar tanto `$username` como `$passwd` según el usuario que se haya establecido de manera local con MariaDB.
 
+### Configuración en el sitio
 
+En el archivo `DML_tablas.sql` ya se encuentran creados dos usuarios, uno de tipo empleado y otro de tipo cliente. El username del primero es `empleado` y la passwd es `empleado1234`. Del mismo modo para el cliente, su username es `user` y la passwd es `user1234`
 
 
